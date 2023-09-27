@@ -8,8 +8,9 @@ import LoadingOverlayComponent from "./LoadingOverlay";
 // import 'datatables.net'; // Import DataTables library CSS
 //@ts-ignore
 
-import $ from "jquery";
+
 const DataTableComponent = (props) => {
+	console.log(JSON.stringify(props?.data))
 	const token = useAppStore((state) => state.auth);
 	const { data: url } = useAuth(props?.rut);
 	//@ts-ignore
@@ -19,6 +20,7 @@ const DataTableComponent = (props) => {
 		props?.rut,
 		//@ts-ignore
 		url?.instance_url,
+		// numero
 	);
 	const tableRef = useRef();
 
@@ -27,14 +29,14 @@ const DataTableComponent = (props) => {
 		let dataTableInstanceRef: DataTables.Api | null = null;
 
 
-		
-		if (data) {
+
+		if (props?.data) {
 			const initializeDataTable = () => {
 				if (tableRef.current) {
 					// Initialize DataTable only once
 					//@ts-ignore
 					dataTableInstanceRef = $(tableRef.current).DataTable({
-						dom: '<"top top-grey"<"dataTables_actions"f>> <t> <"bottom mt-2 d-flex align-items-center justify-content-between flex-wrap"<"d-flex" il>p>',
+						dom: '<"top top-grey"<"dataTables_actions"f>> <t> <"bottom mt-2 d-flex align-props?.datas-center justify-content-between flex-wrap"<"d-flex" il>p>',
 						scrollY: "60vh",
 						scrollX: true,
 						lengthMenu: [
@@ -48,8 +50,8 @@ const DataTableComponent = (props) => {
 					});
 				}
 			};
-
 			initializeDataTable();
+
 		}
 
 		return () => {
@@ -66,7 +68,7 @@ const DataTableComponent = (props) => {
 
 	return (
 		<div className="mt-4 expand_less" id="resultados">
-			<div className="card-header d-flex align-items-center justify-content-between flex-wrap">
+			<div className="card-header d-flex align-props?.datas-center justify-content-between flex-wrap">
 				<h4 className="heading h4-responsive mb-0">Resultados</h4>
 				<ExportToExcel apiData={data} fileName={Date.now()} />
 			</div>
@@ -126,89 +128,88 @@ const DataTableComponent = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{data?.map((item) => (
-									//@ts-ignore
-									<tr key={item?.caseNumber}>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.tipoPostulante ? "sin valor" : item.tipoPostulante
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.tematica ? "sin valor" : item.tematica
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.suppliedPhone ? "sin valor" : item.suppliedPhone
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.suppliedName ? "sin valor" : item.suppliedName
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.contactEmail ? "sin valor" : item.contactEmail
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.submotivo ? "sin valor" : item.submotivo
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.status ? "sin valor" : item.status
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.slaExitDate ? "sin valor" : item.slaExitDate
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.rutWeb ? "sin valor" : item.rutWeb
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.priority ? "sin valor" : item.priority
-											}
-										</td>
-										<td className="">
-											{
-												//@ts-ignore
-												!item.description ? "sin valor" : item.description
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.contactPhone ? "sin valor" : item.contactPhone
-											}
-										</td>
-										<td className="text-nowrap">
-											{
-												//@ts-ignore
-												!item.ambito ? "sin valor" : item.ambito
-											}
-										</td>
-									</tr>
-								))}
+
+								<tr key={props?.data?.caseNumber}>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.tipoPostulante ? "sin valor" : props?.data?.tipoPostulante
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.tematica ? "sin valor" : props?.data?.tematica
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.suppliedPhone ? "sin valor" : props?.data?.suppliedPhone
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.suppliedName ? "sin valor" : props?.data?.suppliedName
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.contactEmail ? "sin valor" : props?.data?.contactEmail
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.submotivo ? "sin valor" : props?.data?.submotivo
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.status ? "sin valor" : props?.data?.status
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.slaExitDate ? "sin valor" : props?.data?.slaExitDate
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.rutWeb ? "sin valor" : props?.data?.rutWeb
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.priority ? "sin valor" : props?.data?.priority
+										}
+									</td>
+									<td className="">
+										{
+											//@ts-ignore
+											!props?.data?.description ? "sin valor" : props?.data?.description
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.contactPhone ? "sin valor" : props?.data?.contactPhone
+										}
+									</td>
+									<td className="text-nowrap">
+										{
+											//@ts-ignore
+											!props?.data?.ambito ? "sin valor" : props?.data?.ambito
+										}
+									</td>
+								</tr>
+
 							</tbody>
 						</table>
 					</div>

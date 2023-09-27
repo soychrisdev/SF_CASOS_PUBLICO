@@ -27,7 +27,7 @@ const fetchDataCasos = async (token, url) => {
 	return data;
 };
 
-export const useDataCasos = (token: string | null, url: string) => {
+export const useDataCasos = (token: string | null, url: string, dataValidador: boolean) => {
 	return useQuery<[], Error>(
 		["DataTipoCasos"],
 		() => fetchDataCasos(token, url),
@@ -38,3 +38,4 @@ export const useDataCasos = (token: string | null, url: string) => {
 		},
 	);
 };
+

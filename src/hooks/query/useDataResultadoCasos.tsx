@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 const fetchDataResultadoCasos = async (token, rut, url) => {
 	const response = await fetch(
 		//@ts-ignore
-		`${config?.baseUrl}api/dataCasosByRut?rut=${rut}`,
+		`${config?.baseUrl}api/CasosRestServicePublic?rut=${'20127090-1'}&numero=${'00001566'}`,
 		{
 			method: "POST",
 			body: JSON.stringify({ instance_url: url }),

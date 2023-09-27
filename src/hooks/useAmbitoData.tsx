@@ -2,16 +2,9 @@ import { useEffect } from "react";
 import { useAppStore } from "../store/store";
 //@ts-ignore
 export const useAmbitoData = (data) => {
-	const setAmbitoData = useAppStore((state) => state.setAmbitoData);
-	const ambitoSelected = useAppStore((state) => state.ambitoSelected);
-	const ambitoData = useAppStore((state) => state.ambitoData);
-	const tipoDataSelected = useAppStore((state) => state.tipoDataSelected);
-	const filteredDataByTipoValue = useAppStore(
-		(state) => state.filteredDataByTipoValue,
-	);
-	const setFilteredDataByTipoValue = useAppStore(
-		(state) => state.setFilteredDataByTipoValue,
-	);
+
+	const { setAmbitoData, ambitoSelected, ambitoData, tipoDataSelected, filteredDataByTipoValue, setFilteredDataByTipoValue } = useAppStore((state) => state);
+
 	useEffect(() => {
 		if (data) {
 			const filteredDataByTipo = data?.filter(

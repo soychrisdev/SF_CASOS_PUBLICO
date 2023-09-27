@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppStore } from "../store/store";
 
 interface HeaderComponentProps {
 	title: string | undefined;
 	accessibility: any; // Replace 'any' with the correct type
 	headerFn: any; // Replace 'any' with the correct type
-	rut: string;
 }
 
 interface Preferencia {
@@ -13,8 +14,10 @@ interface Preferencia {
 }
 
 const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
-	const [show, setShow] = useState(false);
 
+	const { userInfo, setUserInfo } = useAppStore((state) => state);
+	const [show, setShow] = useState(false);
+	const navigate = useNavigate();
 	const [showDesktop, setShowDesktop] = useState(false);
 
 	useEffect(() => {
@@ -24,6 +27,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 			$(".header-title").css("cursor", "pointer");
 		}
 	}, []);
+
+
+
+
 
 	const applyAccessibility = () => {
 		// Access the properties using props.config.preferencias
@@ -156,6 +163,11 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 		return filtered.join(",");
 	};
 
+	const handleLogout = () => {
+		setUserInfo({ ...userInfo, userIsValid: false })
+		navigate("/")
+	}
+
 	return (
 		<header className="header">
 			<div className="header-container">
@@ -180,7 +192,12 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 
 				<div className="user-info">
 					<div className="user-name mr-4">
-						<p>{props?.rut}</p>
+						<p>{userInfo?.rut}</p> <i
+							className="material-icons "
+
+						>
+							more_vert
+						</i>
 					</div>
 
 					<div
@@ -197,9 +214,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 						</i>
 
 						<div
-							className={`dropdown-menu dropdown-menu-right ${
-								show ? "show" : ""
-							}`}
+							className={`dropdown-menu dropdown-menu-right ${show ? "show" : ""
+								}`}
 							style={{
 								position: "absolute",
 								top: "0",
@@ -209,7 +225,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 							}}
 						>
 							<p className="dropdown-user-name">
-								<p>{props?.rut}</p>
+								<p>{userInfo?.rut}</p>
 							</p>
 							<p className="dropdown-title dropdown-title--border">
 								Accesibilidad
@@ -281,9 +297,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 							</i>
 
 							<div
-								className={`dropdown-menu dropdown-menu-right ${
-									showDesktop ? "show" : ""
-								}`}
+								className={`dropdown-menu dropdown-menu-right ${showDesktop ? "show" : ""
+									}`}
 								style={{
 									position: "absolute",
 									top: "0",
@@ -333,8 +348,8 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 							</div>
 						</div>
 
-						<div className="user-logout user-button">
-							<a href="https://portales.inacap.cl/">
+						<div className="user-logout user-button" onClick={handleLogout}>
+							<a>
 								<i className="material-icons">exit_to_app</i>
 							</a>
 						</div>

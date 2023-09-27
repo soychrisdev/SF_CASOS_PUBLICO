@@ -17,10 +17,7 @@ export default function Select({
 	data,
 	disabled,
 }: SelectProps) {
-	const setAmbito = useAppStore((state) => state.setAmbito);
-	const setTematica = useAppStore((state) => state.setTematica);
-	const setSubMotivo = useAppStore((state) => state.setSubMotivo);
-	const setTipoDataSelected = useAppStore((state) => state.setTipoDataSelected);
+	const { setAmbito, setTematica, setSubMotivo, setTipoDataSelected } = useAppStore((state) => state);
 	const startSelects = $(".chosen-select");
 	useEffect(() => {
 		if (data) {
@@ -73,6 +70,7 @@ export default function Select({
 			}
 		}
 	}, [data, setTipoDataSelected]);
+
 
 	return (
 		<>

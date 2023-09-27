@@ -14,6 +14,7 @@ export interface FormSlice {
 	setTematica: (value: string) => void;
 	setSubMotivo: (value: string) => void;
 	setValueToSend: (value: string) => void;
+	clearStateFormSlice: () => void;
 }
 export const createFormSlice: StateCreator<FormSlice> = (set) => ({
 	valueToSend: null,
@@ -31,4 +32,5 @@ export const createFormSlice: StateCreator<FormSlice> = (set) => ({
 	setAmbito: (value) => set({ ambitoSelected: value }),
 	setTematica: (value) => set({ tematicaSelected: value }),
 	setSubMotivo: (value) => set({ subMotivoSelected: value }),
+	clearStateFormSlice: () => set({ valueToSend: null, tipoDataSelected: null, ambitoSelected: null, tematicaSelected: null, subMotivoSelected: null, caseDescription: null, filteredDataByTipoValue: null }),
 });
