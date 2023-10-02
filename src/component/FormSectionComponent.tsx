@@ -9,6 +9,7 @@ import Select from "./Select";
 
 
 
+
 //@ts-ignore
 const FormSectionComponent = (props) => {
 	const { caseDescription, setCaseDescription: setCaseDescrip } = useAppStore((state) => state)
@@ -18,7 +19,6 @@ const FormSectionComponent = (props) => {
 		props?.auth?.access_token,
 		//@ts-ignore
 		props?.auth?.instance_url,
-		// props?.dataValidador?.status !== 200 ? true : false,
 	);
 
 	const { tipoDataStored } = useTipoData(dataTipoCasos);
@@ -79,48 +79,56 @@ const FormSectionComponent = (props) => {
 			email: props?.email,
 			url: props?.auth?.instance_url,
 			rut: props?.rut,
+			tipoPostulante: tipoDataSelected
 		};
+
 		postForm(sendValues);
+
+
+
 	};
 
 	const limit = 250; // Set your character limit here
 	const charCount = caseDescription?.length;
 
-
-	if (isLoading || dataTipoCasos?.length < 0) return "Loading..."
-
-
+	//@ts-ignore
+	if (isLoading && dataTipoCasos?.length < 0) return "Loading..."
 
 
+	if (!dataTipoCasos && !ambitoSelected && !tematicaSelected) return "Loading..."
+
+	console.log('render formsection')
 
 	return (
 		<form id="1" className="needs-validation mt-3" noValidate>
 			<div className="row">
 				<div className="col-12 col-md-4 mb-3">
 					<div className="md-form">
-						<Select
+						{tipoDataStored && <Select
 							id="select-tipo"
 							label="Tipo (*)"
 							data={tipoDataStored}
 							isLoading={isLoading}
 							required={true}
-							disabled={false} />
+							disabled={false} />}
+
 					</div>
 				</div>
 				<div className="col-12 col-md-4 mb-3">
 					<div className="md-form">
-						<Select
+						{ambitoData && <Select
 							id="select-ambito"
 							label="&Aacute;mbito (*)"
 							data={ambitoData}
 							isLoading={isLoading}
 							required={true}
-							disabled={false} />
+							disabled={false} />}
+
 					</div>
 				</div>
 				<div className="col-12 col-md-4 mb-3">
 					<div className="md-form">
-						<Select
+						{tematicaData && <Select
 							id="select-tematica"
 							label="Tem&aacute;tica motivo (*)"
 							data={tematicaData}
@@ -130,23 +138,22 @@ const FormSectionComponent = (props) => {
 								//@ts-ignore
 								tematicaData?.length <= 1 || tematicaData === null
 									? true
-									: false} />
+									: false} />}
+
 					</div>
 				</div>
 
 				<div className="col-12 col-md-4 mb-3">
 					<div className="md-form">
-						<Select
+						{subMotivoData && <Select
 							id="select-submotivo"
 							label="Submotivo"
 							data={subMotivoData}
 							isLoading={isLoading}
 							required={true}
-							disabled={subMotivoData
-								? subMotivoData.length <= 1
-									? true
-									: false
-								: false} />
+							disabled={false} />
+						}
+
 					</div>
 				</div>
 

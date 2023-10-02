@@ -4,17 +4,15 @@ import { useAuth } from "../hooks/query/useAuth";
 import { useDataResultadoCasos } from "../hooks/query/useDataResultadoCasos";
 import { useAppStore } from "../store/store";
 import { ExportToExcel } from "./ExportToExcel";
-import LoadingOverlayComponent from "./LoadingOverlay";
 // import 'datatables.net'; // Import DataTables library CSS
 //@ts-ignore
 
 
 const DataTableComponent = (props) => {
-	console.log(JSON.stringify(props?.data))
 	const token = useAppStore((state) => state.auth);
-	const { data: url } = useAuth(props?.rut);
 	//@ts-ignore
-	const userInfo = useAppStore((state) => state.userInfo);
+	const { data: url } = useAuth(props?.rut);
+
 	const { data, isRefetching } = useDataResultadoCasos(
 		token,
 		props?.rut,
@@ -63,7 +61,7 @@ const DataTableComponent = (props) => {
 	}, [data, isRefetching]);
 
 	if (isRefetching) {
-		return <LoadingOverlayComponent />;
+		return 'loading...';
 	}
 
 	return (
@@ -79,6 +77,7 @@ const DataTableComponent = (props) => {
 						<table
 							id="TablaResultados"
 							className="datatables table table-hover table-striped table-bordered m-0"
+							//@ts-ignore
 							ref={tableRef}
 						>
 							<thead>

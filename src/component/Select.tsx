@@ -71,6 +71,8 @@ export default function Select({
 		}
 	}, [data, setTipoDataSelected]);
 
+	if (!data) return 'Loading...'
+
 
 	return (
 		<>

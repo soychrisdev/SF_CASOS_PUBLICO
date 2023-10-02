@@ -15,9 +15,11 @@ function validateRut(rut: string | undefined): boolean {
 	 * @param rut  RUT string
 	 * @return {boolean} true if RUT is valid, false otherwise.
 	 */
+		//@ts-ignore
 	if (/^0+/.test(rut)) {
 		return false;
 	}
+	//@ts-ignore
 	if (!/^0*(\d{1,3}(\.?\d{3})*)-?([\dkK])$/.test(rut)) {
 		return false;
 	}

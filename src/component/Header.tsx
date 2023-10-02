@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAppStore } from "../store/store";
 
 interface HeaderComponentProps {
@@ -15,9 +15,8 @@ interface Preferencia {
 
 const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 
-	const { userInfo, setUserInfo } = useAppStore((state) => state);
+	const { userInfo } = useAppStore((state) => state);
 	const [show, setShow] = useState(false);
-	const navigate = useNavigate();
 	const [showDesktop, setShowDesktop] = useState(false);
 
 	useEffect(() => {
@@ -163,11 +162,6 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 		return filtered.join(",");
 	};
 
-	const handleLogout = () => {
-		setUserInfo({ ...userInfo, userIsValid: false })
-		navigate("/")
-	}
-
 	return (
 		<header className="header">
 			<div className="header-container">
@@ -192,12 +186,7 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 
 				<div className="user-info">
 					<div className="user-name mr-4">
-						<p>{userInfo?.rut}</p> <i
-							className="material-icons "
-
-						>
-							more_vert
-						</i>
+						<p>{userInfo?.rut}</p>
 					</div>
 
 					<div
@@ -274,9 +263,9 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 										<span id="tipo-de-modo">Cerrar Sesi&oacute;n</span>
 										<div className="d-flex justify-content-center">
 											{/* rome-ignore lint/a11y/useValidAnchor: <explanation> */}
-											<a role="button">
+											<Link role="button" to={'/'} reloadDocument>
 												<i className="material-icons">exit_to_app</i>
-											</a>
+											</Link>
 										</div>
 									</div>
 								</li>
@@ -348,10 +337,10 @@ const HeaderComponent: React.FC<HeaderComponentProps> = (props) => {
 							</div>
 						</div>
 
-						<div className="user-logout user-button" onClick={handleLogout}>
-							<a>
+						<div className="user-logout user-button">
+							<Link role="button" to={'/'} reloadDocument>
 								<i className="material-icons">exit_to_app</i>
-							</a>
+							</Link>
 						</div>
 					</div>
 				</div>

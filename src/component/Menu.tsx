@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
+import { useAppStore } from "../store/store";
 
 export default function Menu() {
+    const { userInfo } = useAppStore((state) => state)
     const handleMenu = (state: boolean) => {
         const navbar = document.getElementById("offCanvas");
         const overlay = document.querySelector(".navbar-overlay");
@@ -53,10 +55,11 @@ export default function Menu() {
                         </span>
                     </a>
                     <li className="nav-item">
-                        <NavLink to={'/consulta'} className="nav-link waves-effect" >Ingreso de Casos</NavLink>
+                        {userInfo?.userIsValid ? <NavLink to={'/ingreso'} className="nav-link waves-effect" >Ingreso de Casos</NavLink> : <NavLink to={'/'} className="nav-link waves-effect" >Ingreso de Casos</NavLink>}
+
                     </li>
                     <li className="nav-item">
-                        <NavLink to={'/resultados'} className="nav-link waves-effect">Consulta de Casos</NavLink>
+                        <NavLink to={'/consulta'} className="nav-link waves-effect">Consulta de Casos</NavLink>
                     </li>
 
                 </ul>

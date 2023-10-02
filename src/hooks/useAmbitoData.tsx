@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useMemo } from "react";
 import { useAppStore } from "../store/store";
 //@ts-ignore
 export const useAmbitoData = (data) => {
 
 	const { setAmbitoData, ambitoSelected, ambitoData, tipoDataSelected, filteredDataByTipoValue, setFilteredDataByTipoValue } = useAppStore((state) => state);
 
-	useEffect(() => {
+	useMemo(() => {
 		if (data) {
 			const filteredDataByTipo = data?.filter(
 				//@ts-ignore

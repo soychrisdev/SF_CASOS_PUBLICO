@@ -1,15 +1,29 @@
 import { useQuery } from "react-query";
 //@ts-ignore
-const fetchDataAmbito = async (token, url) => {
+
+interface TDataAmbito {
+	nombre: string;
+	tematicas: {
+		[key: string]: {
+			label: string;
+			submotivos: {
+				[key: string]: {
+					label: string;
+					[key: string]: string;
+				};
+			};
+		};
+	};
+
+}
+
+const fetchDataAmbito = async (token: string | undefined, url: string): Promise<TDataAmbito[]> => {
 	const response = await fetch(
 		//@ts-ignore
-		`${config?.baseUrl}api/data`,
+		`${config.baseUrl}api/data`,
 		{
 			method: "POST",
-
 			body: JSON.stringify({ instance_url: url }),
-			// mode: "cors",
-			// credentials: "include",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
@@ -20,17 +34,20 @@ const fetchDataAmbito = async (token, url) => {
 	if (!response.ok) {
 		const error = await response.json().then((res) => res);
 		return error;
-		// Adjunta información extra al objeto de error.
 	}
 
-	const data = (await response.json().then((res) => res)) as [];
-	return data;
+	const data = await response.json();
+	return [data];
 };
 
 export const useDataAmbito = (token: string | undefined, url: string) => {
-	return useQuery<[], Error>(["Data"], () => fetchDataAmbito(token, url), {
+	return useQuery<TDataAmbito[], Error>(["Data"], () => fetchDataAmbito(token, url), {
 		enabled: !!token,
 		//@ts-ignore
 		// select: (data) => data.filter((item) => item.nombre === "estudiante"),
 	});
 };
+
+
+
+

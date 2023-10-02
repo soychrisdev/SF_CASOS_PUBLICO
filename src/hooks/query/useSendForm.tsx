@@ -36,11 +36,10 @@ const postFormData = async (value) => {
 };
 export const useFormData = () => {
 	const queryClient = useQueryClient();
-	const { mutate: postForm, error } = useMutation(postFormData, {
+	const { mutate: postForm, error, status } = useMutation(postFormData, {
 		onSuccess: async () => {
 			await queryClient.invalidateQueries(["DataCasos"]);
 			//@ts-ignore
-
 			toastr.success("Formulario enviado");
 		},
 		onError: (error) => {
@@ -56,6 +55,7 @@ export const useFormData = () => {
 	return {
 		postForm,
 		error,
+		status
 	};
 };
 //cuestionario de alinamiento de la norma chilena 2770

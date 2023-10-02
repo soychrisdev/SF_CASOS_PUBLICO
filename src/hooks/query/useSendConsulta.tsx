@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { ResponseError } from "../../utils/ResponseError";
 
 //@ts-ignore
@@ -36,7 +36,6 @@ const postFormData = async (value) => {
     return data;
 };
 export const useFormConsulta = () => {
-    const queryClient = useQueryClient();
     const { mutate: postForm, error, isLoading, data, isSuccess, isIdle } = useMutation(postFormData, {
         onSuccess: async () => {
             //@ts-ignore

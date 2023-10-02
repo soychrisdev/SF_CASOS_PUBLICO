@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
+import { useAuth } from "../hooks/query/useAuth";
+import { useValidador } from "../hooks/query/useValidador";
 import { useAppStore } from "../store/store";
 import { formatRut, validateRut } from "../utils/RutValidator";
 
 export default function Ingreso() {
 
     const { userInfo, setUserInfo, clearUserInfo } = useAppStore((state) => state);
-
-
+    const { data: url } = useAuth();
+    const { postForm: postValidador, data: dataValidador, status } = useValidador();
     const navigate = useNavigate();
     //@ts-ignore
     const handleValidateRut = (rut) => {
@@ -51,9 +53,19 @@ export default function Ingreso() {
     const handleSubmit = () => {
 
         if (validate() == true) {
+
             setUserInfo({ ...userInfo, userIsValid: validate() == true ? true : false })
 
-            navigate("/consulta");
+
+            postValidador({
+                validador: "contacto",
+                rut: userInfo?.rut,
+                instance_url: url?.instance_url,
+                token: url?.access_token
+            })
+
+
+
 
         } else {
             //@ts-ignore
@@ -63,24 +75,35 @@ export default function Ingreso() {
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-
         setUserInfo({
             ...userInfo, [name]: name === "rut" ? formatRut(value, false) : name === "email" ? isEmail(value) ? value : value : value
         });
 
+
+
     };
 
     useEffect(() => {
+        if (dataValidador?.status === 400) {
+            if (userInfo?.userIsValid !== false) {
+                setUserInfo({ ...userInfo, userIsValid: true })
+                setTimeout(() => {
+                    navigate("/ingreso");
+                }, 1000)
+                console.log(JSON.stringify(userInfo))
+                console.log(dataValidador?.status)
+            } else {
+                clearUserInfo();
+            }
 
-        if (userInfo?.userIsValid !== false) {
-            console.log('si existe usuario')
-            navigate("/consulta");
-            console.log(JSON.stringify(userInfo))
-        } else {
-            clearUserInfo();
         }
 
-    }, [])
+        if (dataValidador?.status === 200) {
+            //@ts-ignore
+            toastr.error('El rut ingresado corresponde a un Alumno, favor ingrese por su plataforma.');
+        }
+
+    }, [status])
 
 
 

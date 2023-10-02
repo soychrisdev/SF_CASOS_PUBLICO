@@ -2,19 +2,21 @@ import DataTableComponent from "../component/TablaResultados";
 import { useAuth } from "../hooks/query/useAuth";
 import { useFormConsulta } from "../hooks/query/useSendConsulta";
 import { useAppStore } from "../store/store";
+import { validateRut } from "../utils/RutValidator";
 
-export default function Resultados() {
 
 
-  const { userInfo } = useAppStore((state) => state);
 
-  const { data: token, isLoading: isLoadingAuth } = useAuth(true);
-  const { postForm, error, isLoading, data, isSuccess, isIdle } = useFormConsulta();
+export default function ConsultaPage() {
+
+
+  const { data: token } = useAuth();
+  const { postForm, isLoading, data, isIdle } = useFormConsulta();
 
   const { setCasosInfo, casosInfo } = useAppStore((state) => state)
+
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setCasosInfo({
       ...casosInfo, [name]: value
     });
@@ -32,6 +34,17 @@ export default function Resultados() {
       instance_url: token?.instance_url,
       token: token?.access_token
     };
+
+    //@ts-ignore
+    if (!validateRut(sendValues.rut)) return toastr.error("Rut es invalido!");
+    //@ts-ignore
+    if (sendValues.numCaso === "" || sendValues.numCaso === undefined) return toastr.error("Numero de caso es invalido!");
+    //@ts-ignore
+    if (sendValues.instance_url === "" || sendValues.instance_url === undefined) return toastr.error("Token es invalido!");
+    //@ts-ignore
+    if (sendValues.token === "" || sendValues.token === undefined) return toastr.error("Token es invalido!");
+    //@ts-ignore
+
     postForm(sendValues);
 
   }
@@ -44,7 +57,6 @@ export default function Resultados() {
             Consulta de Casos
           </h4>
         </div>
-
         <div className="row">
           <div className="col-md-4 mb-2 mt-3">
             <div className="md-form my-3">
@@ -99,7 +111,7 @@ export default function Resultados() {
 
         <div className="card mt-4" id="consulta_resultados">
           {
-            !isLoading ? <DataTableComponent data={data} /> : 'loading...'
+            isLoading || <DataTableComponent data={data} />
           }
         </div>
       }

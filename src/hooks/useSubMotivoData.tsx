@@ -1,10 +1,10 @@
-import { useEffect } from "react";
+import { useMemo } from "react";
 import { useAppStore } from "../store/store";
 //@ts-ignore
 export const useSubMotivoData = (data, ambitoSelected, tematicaSelected) => {
 	const { subMotivoSelected, subMotivoData, setSubMotivoData, tipoDataSelected } = useAppStore((state) => state);
 
-	useEffect(() => {
+	useMemo(() => {
 		if (tematicaSelected) {
 			const filteredDataByTipo = data?.filter(
 				//@ts-ignore
