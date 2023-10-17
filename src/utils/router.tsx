@@ -7,21 +7,21 @@ import IngresoCaso from '../pages/IngresoCaso';
 
 export const router = createBrowserRouter([
 	{
-		path: "/",
+		path: "/CRM_SF/SF_CASOS_EXTERNO",
 		element: <Layout />,
 		errorElement: <Error />,
 		children: [
 			{
 				index: true,
-				path: "/",
+				path: "/CRM_SF/SF_CASOS_EXTERNO",
 				element: <Ingreso />,
 			},
 			{
-				path: "/ingreso",
+				path: "/CRM_SF/SF_CASOS_EXTERNO/ingreso",
 				element: <IngresoCaso />,
 			},
 			{
-				path: "/consulta",
+				path: "/CRM_SF/SF_CASOS_EXTERNO/consulta",
 				element: <Resultados />,
 			},
 			{
